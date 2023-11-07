@@ -96,39 +96,138 @@ Step14. click on debug and simulate using simulation as shown below
   
 
 ## STM 32 CUBE PROGRAM :
+```
+Developed by : Prasannalakshmi G
+Regno : 212222240075
+```
 
+```
+#include "main.h"
+
+int main(void)
+{
+  
+  HAL_Init();
+
+ 
+  SystemClock_Config();
+
+  
+  MX_GPIO_Init();
+  MX_TIM2_Init();
+  
+  HAL_TIM_Base_Start(&htim2);
+  HAL_TIM_PWM_Init(&htim2);
+  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
+  while (1)
+  {
+    
+  }
+
+}
+
+static void MX_TIM2_Init(void)
+{
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+  TIM_OC_InitTypeDef sConfigOC = {0};
+
+ 
+  htim2.Instance = TIM2;
+  htim2.Init.Prescaler = 47;
+  htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim2.Init.Period = 1000;
+  htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
+  if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim2, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  if (HAL_TIM_PWM_Init(&htim2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sConfigOC.OCMode = TIM_OCMODE_PWM1;
+  sConfigOC.Pulse = 800;
+  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
+  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
+  if (HAL_TIM_PWM_ConfigChannel(&htim2, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+ 
+  HAL_TIM_MspPostInit(&htim2);
+
+}
+
+
+static void MX_GPIO_Init(void)
+{
+
+
+  __HAL_RCC_GPIOA_CLK_ENABLE();
+
+}
+
+#ifdef  USE_FULL_ASSERT
+
+void assert_failed(uint8_t *file, uint32_t line)
+{
+ 
+}
+```
 
 
 
 
 ## Output screen shots of proteus  :
- 
+ ![280477491-28996738-1b42-4d64-b2b0-5dd62d4c9f10](https://github.com/Prasannalakshmiganesan/EXPERIMENT--07-SQUARE-WAVE-GENERATION-AT-THE-OUTPUT-PIN-USING-TIMER/assets/118610231/84629b40-fd84-4c7e-bb5d-a62c2c08153d)
+
  
  ## CIRCUIT DIAGRAM (EXPORT THE GRAPHICS TO PDF AND ADD THE SCREEN SHOT HERE): 
- 
+ ![280477480-d9543d6a-bd55-4de9-99f4-4023ffe17807](https://github.com/Prasannalakshmiganesan/EXPERIMENT--07-SQUARE-WAVE-GENERATION-AT-THE-OUTPUT-PIN-USING-TIMER/assets/118610231/59b43321-b377-4090-8944-d37ca536b76e)
+
 
 ## DUTY CYCLE AND FREQUENCY CALCULATION 
 FOR PULSE AT 500
+![280477200-2c29dc3b-1804-4ea5-9b61-4584d05d2f57](https://github.com/Prasannalakshmiganesan/EXPERIMENT--07-SQUARE-WAVE-GENERATION-AT-THE-OUTPUT-PIN-USING-TIMER/assets/118610231/19ccc04e-21c7-4696-a2c5-9cb068f31f4d)
 
-TON = 
-TOFF=
-TOTAL TIME = 
+TON = 8
+TOFF= 8
+TOTAL TIME = 16
 FREQUENCY = 1/(TOTAL TIME)
+FREQUENCY = 62.5Hz
 
 FOR PULSE AT 700
+![280477231-77f6ceed-ad52-41e8-837b-5036ddcd502b](https://github.com/Prasannalakshmiganesan/EXPERIMENT--07-SQUARE-WAVE-GENERATION-AT-THE-OUTPUT-PIN-USING-TIMER/assets/118610231/7e443536-b9c9-4a38-8fb0-0053e0aa8b03)
 
-TON = 
-TOFF=
-TOTAL TIME = 
+TON = 13
+TOFF= 3
+TOTAL TIME = 16
 FREQUENCY = 1/(TOTAL TIME)
+FREQUENCY = 62.5Hz
 
 
 FOR PULSE AT 900
+![280477245-4bdf5f47-e050-4087-951c-ae8d4d597e95](https://github.com/Prasannalakshmiganesan/EXPERIMENT--07-SQUARE-WAVE-GENERATION-AT-THE-OUTPUT-PIN-USING-TIMER/assets/118610231/9f6b61dc-7baf-46ff-92f8-c44089ed589f)
 
-TON = 
-TOFF=
-TOTAL TIME = 
+TON = 14
+TOFF= 2
+TOTAL TIME = 16
 FREQUENCY = 1/(TOTAL TIME)
+FREQUENCY = 62.5Hz
 
 
 ## Result :
